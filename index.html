@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Slider / Carousel</title>
+    <style>
+        .slider {
+            width: 600px;
+            height: 350px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .slides {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease;
+        }
+
+        .slides img {
+            width: 600px;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        /* Buttons */
+        .btn {
+            position: absolute;
+            top: 50%;
+            padding: 10px;
+            font-size: 18px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+
+        #prev {
+            left: 10px;
+        }
+
+        #next {
+            right: 10px;
+        }
+
+        /* Dots */
+        .dots {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .dots span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 5px;
+            background: #bbb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .active {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slider">
+        <div class="slides" id="slides">
+            <img src="https://picsum.photos/id/1015/600/350">
+            <img src="https://picsum.photos/id/1025/600/350">
+            <img src="https://picsum.photos/id/1035/600/350">
+        </div>
+
+        <button id="prev" class="btn" onclick="prevSlide()">&#10094;</button>
+        <button id="next" class="btn" onclick="nextSlide()">&#10095;</button>
+
+        <div class="dots">
+            <span onclick="currentSlide(0)" class="dot active"></span>
+            <span onclick="currentSlide(1)" class="dot"></span>
+            <span onclick="currentSlide(2)" class="dot"></span>
+        </div>
+    </div>
+
+    <script>
+        let index = 0;
+        const slides = document.getElementById("slides");
+        const dots = document.querySelectorAll(".dot");
+        const totalSlides = dots.length;
+
+        function updateSlide() {
+            slides.style.transform = "translateX(" + (-index * 600) + "px)";
+            dots.forEach(dot => dot.classList.remove("active"));
+            dots[index].classList.add("active");
+        }
+
+        function nextSlide() {
+            index = (index + 1) % totalSlides;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            index = (index - 1 + totalSlides) % totalSlides;
+            updateSlide();
+        }
+
+        function currentSlide(n) {
+            index = n;
+            updateSlide();
+        }
+
+        // Auto-slide every 3 seconds
+        setInterval(nextSlide, 3000);
+    </script>
+
+</body>
+</html>
